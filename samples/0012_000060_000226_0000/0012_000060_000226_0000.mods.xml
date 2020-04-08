@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mods xmlns="http://www.loc.gov/mods/v3"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-5.xsd">
+   <identifier type="local">0012_000060_000226_0000</identifier>
+   <identifier type="filename">0012_000060_000226_0000.xml</identifier>
+   <name type="personal">
+      <namePart>Ramsey, J. Crozier (John Crozier)</namePart>
+      <role>
+         <roleTerm type="text" authority="marcrelator"
+                   valueURI="http://id.loc.gov/vocabulary/relators/cre">Creator</roleTerm>
+      </role>
+   </name>
+   <titleInfo>
+      <title>Letter, J. Crozier Ramsey in Knoxville, Tenn., to J.G.M. Ramsey, in Charlotte, N.C. 1867 December 18</title>
+   </titleInfo>
+   <typeOfResource>text</typeOfResource>
+   <abstract>Dec. 18, 1867 letter from J.Crozier Ramsey in Knoxville, Tenn. to his
+      father, J.G.M. Ramsey in Charlotte, N.C. Discusses favorable property sales and encloses a
+      deed for Lizzie which is to be signed, notarized and returned quickly to him. Expresses hopes
+      for upcoming court cases involving his father and others. Mentions his desire to answer his
+      'Ma's' long letter--shortly after court session has ended.</abstract>
+</mods>

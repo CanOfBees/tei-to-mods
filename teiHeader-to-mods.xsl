@@ -1,69 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet 
+<xsl:stylesheet
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:tei="http://www.tei-c.org/ns/1.0"
+    xmlns:mods="http://www.loc.gov/mods/v3"
     exclude-result-prefixes="tei"
     version="2.0">
-    
-    <!-- 
-       This probably gets a lot of particulars wrong, but this was whipped up for testing purposes
-       (so maybe that's okay). 
-    -->
-    
-    <!-- output -->
-    <xsl:output method="xml" indent="yes" encoding="UTF-8"/>
-    <xsl:strip-space elements="*"/>
-    
-    <!-- transform -->
-    <xsl:template match="/*:TEI/*:teiHeader">
-        <mods 
-            xmlns="http://www.loc.gov/mods/v3" 
-            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-            xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-5.xsd">
-            
-            <!-- identifiers -->
-            <identifier type="local">
-                <xsl:value-of select="*:fileDesc/*:publicationStmt/*:idno"/>
-            </identifier>
-            <identifier type="filename">
-                <xsl:value-of select="concat(*:fileDesc/*:publicationStmt/*:idno,'.xml')"/>
-            </identifier>
-            
-            <!-- name stuff -->
-            <!-- type='personal' for testing purposes only!! -->                                                                      <name type="personal">
-                <namePart>
-                    <xsl:value-of select="*:fileDesc/*:sourceDesc/*:bibl/*:author/*:name"/>
-                </namePart>
-                <!-- probably wrong, but went with 'cre'/Creator for this. will change. -->
-                <role>
-                    <roleTerm type="text" authority="marcrelator" 
-                        valueURI="http://id.loc.gov/vocabulary/relators/cre">Creator</roleTerm>
-                </role>
-            </name>
-            
-            <!-- title -->
-            <titleInfo>
-                <title>
-                    <xsl:value-of select="normalize-space(*:fileDesc/*:titleStmt/*:title)"/>
-                </title>
-            </titleInfo>
 
-            <!-- type -->
-            <typeOfResource>
-                <xsl:text>text</xsl:text>
-            </typeOfResource>
+  <!-- output -->
+  <xsl:output method="xml" indent="yes" encoding="UTF-8"/>
+  <xsl:strip-space elements="*"/>
 
-            <!-- abstract -->
-            <abstract>
-                <xsl:value-of select="*:fileDesc/*:sourceDesc/*:bibl/*:note[@type='abstract']"/>
-            </abstract>
+  <!-- transform -->
+  <xsl:template match="tei:TEI/tei:teiHeader">
+    <mods:mods xmlns:mods="http://www.loc.gov/mods/v3" version="3.5"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema"
+          xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-5.xsd">
+      <!-- identifiers -->
+      <mods:identifier type="local">
+        <xsl:value-of select="tei:fileDesc/tei:publicationStmt/tei:idno"/>
+      </mods:identifier>
+      <!-- title -->
+      <mods:titleInfo>
+        <mods:title>
+          <xsl:value-of select="normalize-space(tei:fileDesc/tei:sourceDesc/tei:bibl/tei:title)"/>
+        </mods:title>
+      </mods:titleInfo>
+      <!-- names -->
+      <xsl:apply-templates select="tei:fileDesc/tei:sourceDesc/tei:bibl/tei:author/tei:name"/>
+    </mods:mods>
+  </xsl:template>
 
+  <xsl:template match="tei:fileDesc/tei:sourceDesc/tei:bibl/tei:author/tei:name">
+    <mods:name>
+      <xsl:if test="@type = 'person'">
+        <xsl:attribute name="type" select="'personal'"/>
+      </xsl:if>
+      <mods:namePart>
+        <xsl:value-of select="normalize-space(.)"/>
+      </mods:namePart>
+    </mods:name>
+  </xsl:template>
 
-        </mods>
-    </xsl:template>
-    
-    <!-- ignore! -->
-    <xsl:template match="/*:TEI/*:text"/>
-    <xsl:template match="processing-instruction()"/>
-    
+  <!-- ignore! -->
+  <xsl:template match="/tei:TEI/tei:text"/>
+  <xsl:template match="processing-instruction()"/>
+
 </xsl:stylesheet>

@@ -25,8 +25,16 @@
           <xsl:value-of select="normalize-space(tei:fileDesc/tei:sourceDesc/tei:bibl/tei:title)"/>
         </mods:title>
       </mods:titleInfo>
+      <!-- abstract -->
+      <!-- originInfo/dateCreated -->
+
       <!-- names -->
       <xsl:apply-templates select="tei:fileDesc/tei:sourceDesc/tei:bibl/tei:author/tei:name"/>
+      <!-- subjects -->
+      <!-- recordInfo: recordContentSource, recordChangeDate, languageOfCataloging,
+        recordOrigin
+      -->
+
     </mods:mods>
   </xsl:template>
 

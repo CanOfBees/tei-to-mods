@@ -17,7 +17,7 @@
           xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-5.xsd">
       <!-- identifiers -->
       <mods:identifier type="local">
-        <xsl:value-of select="tei:fileDesc/tei:publicationStmt/tei:idno"/>
+        <xsl:value-of select="tei:fileDesc/tei:publicationStmt/tei:idno[1]"/>
       </mods:identifier>
       <!-- title -->
       <mods:titleInfo>
@@ -26,8 +26,21 @@
         </mods:title>
       </mods:titleInfo>
       <!-- abstract -->
+      <mods:abstract>
+        <xsl:value-of
+            select="normalize-space(tei:fileDesc/tei:sourceDesc/tei:bibl/tei:note[@type='abstract' or @type='summary'])"/>
+      </mods:abstract>
       <!-- originInfo/dateCreated -->
-
+      <mods:originInfo>
+        <mods:dateCreated>
+          <xsl:value-of select="normalize-space(tei:fileDesc/tei:sourceDesc/tei:bibl/tei:date)"/>
+        </mods:dateCreated>
+        <xsl:if test="tei:fileDesc/tei:sourceDesc/tei:bibl/tei:date[@when]">
+          <mods:dateCreated encoding="edtf">
+            <xsl:value-of select="tei:fileDesc/tei:sourceDesc/tei:bibl/tei:date/@when"/>
+          </mods:dateCreated>
+        </xsl:if>
+      </mods:originInfo>
       <!-- names -->
       <xsl:apply-templates select="tei:fileDesc/tei:sourceDesc/tei:bibl/tei:author/tei:name"/>
       <!-- subjects -->
@@ -46,6 +59,9 @@
       <mods:namePart>
         <xsl:value-of select="normalize-space(.)"/>
       </mods:namePart>
+      <mods:role>
+        <mods:roleTerm authority="marcrelator" authorityURI="http://id.loc.gov/vocabulary/relators/cre">Creator</mods:roleTerm>
+      </mods:role>
     </mods:name>
   </xsl:template>
 

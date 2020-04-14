@@ -4,7 +4,8 @@
     xmlns:tei="http://www.tei-c.org/ns/1.0"
     xmlns:mods="http://www.loc.gov/mods/v3"
     xmlns:cob="http://canofbees.org/xslt/"
-    exclude-result-prefixes="tei"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    exclude-result-prefixes="tei xs"
     version="2.0">
 
   <!-- output -->
@@ -32,24 +33,35 @@
             select="normalize-space(tei:fileDesc/tei:sourceDesc/tei:bibl/tei:note[@type='abstract' or @type='summary'])"/>
       </mods:abstract>
       <!-- originInfo/dateCreated -->
-      <mods:originInfo>
-        <mods:dateCreated>
-          <xsl:value-of select="normalize-space(tei:fileDesc/tei:sourceDesc/tei:bibl/tei:date)"/>
-        </mods:dateCreated>
-        <xsl:if test="tei:fileDesc/tei:sourceDesc/tei:bibl/tei:date[@when]">
-          <mods:dateCreated encoding="edtf">
-            <xsl:value-of select="tei:fileDesc/tei:sourceDesc/tei:bibl/tei:date/@when"/>
-          </mods:dateCreated>
-        </xsl:if>
-      </mods:originInfo>
+      <xsl:apply-templates select="tei:fileDesc/tei:sourceDesc/tei:bibl/tei:date"/>
+
       <!-- names -->
       <xsl:apply-templates select="tei:fileDesc/tei:sourceDesc/tei:bibl/tei:author/tei:name"/>
+
       <!-- subjects -->
       <!-- recordInfo: recordContentSource, recordChangeDate, languageOfCataloging,
         recordOrigin
       -->
 
     </mods:mods>
+  </xsl:template>
+
+  <xsl:template match="tei:fileDesc/tei:sourceDesc/tei:bibl/tei:date">
+    <xsl:variable name="vWhen" select="if (@when) then cob:date-proc(@when) else ''"/>
+    <xsl:variable name="vDate" select="cob:date-proc(normalize-space(.))"/>
+
+    <mods:originInfo>
+      <xsl:choose>
+        <xsl:when test="$vDate != '' and $vWhen != ''">
+          <mods:dateCreated><xsl:value-of select="$vDate"/></mods:dateCreated>
+          <mods:dateCreated encoding="edtf"><xsl:value-of select="$vWhen"/></mods:dateCreated>
+        </xsl:when>
+        <xsl:when test="$vDate != '' and cob:is-iso-date($vDate) and $vWhen = ''">
+          <mods:dateCreated><xsl:value-of select="$vDate"/></mods:dateCreated>
+          <mods:dateCreated encoding="edtf"><xsl:value-of select="$vDate"/></mods:dateCreated>
+        </xsl:when>
+      </xsl:choose>
+    </mods:originInfo>
   </xsl:template>
 
   <xsl:template match="tei:fileDesc/tei:sourceDesc/tei:bibl/tei:author/tei:name">
@@ -74,7 +86,7 @@
   <xsl:function name="cob:is-iso-date" as="xs:boolean">
     <xsl:param name="date" as="xs:string"/>
 
-    <xsl:sequence select="matches($date, '^\d{{4}}-\d{{2}}-\d{{2}}$')"/>
+    <xsl:sequence select="matches($date, '^\d{4}-\d{2}-\d{2}$')"/>
   </xsl:function>
 
   <xsl:function name="cob:date-proc" as="item()*">

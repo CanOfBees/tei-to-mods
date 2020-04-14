@@ -43,7 +43,12 @@
       <!-- recordInfo: recordContentSource, recordChangeDate, languageOfCataloging,
         recordOrigin
       -->
-
+      <mods:recordInfo>
+        <mods:languageOfCataloging>
+          <mods:languageTerm type="code" authority="iso639=2b">eng</mods:languageTerm>
+        </mods:languageOfCataloging>
+        <mods:recordCreationDate><xsl:value-of select="current-date()"/></mods:recordCreationDate>
+      </mods:recordInfo>
     </mods:mods>
   </xsl:template>
 

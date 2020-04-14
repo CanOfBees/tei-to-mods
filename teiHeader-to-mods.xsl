@@ -39,6 +39,7 @@
       <xsl:apply-templates select="tei:fileDesc/tei:sourceDesc/tei:bibl/tei:author/tei:name"/>
 
       <!-- subjects -->
+      <xsl:apply-templates select="tei:profileDesc/tei:textClass/tei:keywords"/>
       <!-- recordInfo: recordContentSource, recordChangeDate, languageOfCataloging,
         recordOrigin
       -->
@@ -60,6 +61,9 @@
           <mods:dateCreated><xsl:value-of select="$vDate"/></mods:dateCreated>
           <mods:dateCreated encoding="edtf"><xsl:value-of select="$vDate"/></mods:dateCreated>
         </xsl:when>
+        <xsl:otherwise>
+          <mods:dateCreated><xsl:value-of select="$vDate"/></mods:dateCreated>
+        </xsl:otherwise>
       </xsl:choose>
     </mods:originInfo>
   </xsl:template>
@@ -75,6 +79,35 @@
       <mods:role>
         <mods:roleTerm authority="marcrelator" authorityURI="http://id.loc.gov/vocabulary/relators/cre">Creator</mods:roleTerm>
       </mods:role>
+    </mods:name>
+  </xsl:template>
+
+  <xsl:template match="tei:profileDesc/tei:textClass/tei:keywords">
+    <xsl:apply-templates select="tei:term[not(child::tei:name)]"/>
+    <xsl:apply-templates select="tei:term[child::tei:name]"/>
+  </xsl:template>
+
+  <xsl:template match="tei:term[not(child::tei:name)]">
+    <mods:subject>
+      <mods:topic><xsl:value-of select="normalize-space(.)"/></mods:topic>
+    </mods:subject>
+  </xsl:template>
+
+  <xsl:template match="tei:term[child::tei:name]">
+    <mods:name>
+      <xsl:if test="tei:name/@ref">
+        <xsl:attribute name="valueURI" select="tei:name/@ref"/>
+      </xsl:if>
+      <mods:namePart><xsl:value-of select="normalize-space(tei:name)"/></mods:namePart>
+      <xsl:if test="tei:name/@role">
+        <xsl:variable name="vRole" select="tokenize(tei:name/@role, ' ')"/>
+        <mods:role>
+          <mods:roleTerm authority="marcrelator"
+                         valueURI="{$vRole[2]}">
+            <xsl:value-of select="$vRole[1]"/>
+          </mods:roleTerm>
+        </mods:role>
+      </xsl:if>
     </mods:name>
   </xsl:template>
 

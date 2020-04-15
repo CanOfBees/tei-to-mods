@@ -99,21 +99,25 @@
   </xsl:template>
 
   <xsl:template match="tei:term[child::tei:name]">
-    <mods:name>
-      <xsl:if test="tei:name/@ref">
-        <xsl:attribute name="valueURI" select="tei:name/@ref"/>
-      </xsl:if>
-      <mods:namePart><xsl:value-of select="normalize-space(tei:name)"/></mods:namePart>
-      <xsl:if test="tei:name/@role">
-        <xsl:variable name="vRole" select="tokenize(tei:name/@role, ' ')"/>
-        <mods:role>
-          <mods:roleTerm authority="marcrelator"
-                         valueURI="{$vRole[2]}">
-            <xsl:value-of select="$vRole[1]"/>
-          </mods:roleTerm>
-        </mods:role>
-      </xsl:if>
-    </mods:name>
+    <mods:subject>
+      <mods:name>
+        <xsl:if test="tei:name/@ref">
+          <xsl:attribute name="valueURI" select="tei:name/@ref"/>
+        </xsl:if>
+        <mods:namePart>
+          <xsl:value-of select="normalize-space(tei:name)"/>
+        </mods:namePart>
+        <xsl:if test="tei:name/@role">
+          <xsl:variable name="vRole" select="tokenize(tei:name/@role, ' ')"/>
+          <mods:role>
+            <mods:roleTerm authority="marcrelator"
+                           valueURI="{$vRole[2]}">
+              <xsl:value-of select="$vRole[1]"/>
+            </mods:roleTerm>
+          </mods:role>
+        </xsl:if>
+      </mods:name>
+    </mods:subject>
   </xsl:template>
 
   <!-- ignore! -->

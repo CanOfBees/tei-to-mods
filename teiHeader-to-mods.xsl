@@ -93,6 +93,14 @@
           <mods:physicalLocation><xsl:value-of select="$tei-location"/></mods:physicalLocation>
         </mods:location>
       </xsl:if>
+
+      <!-- relatedItem[@displayLabel="Project" -->
+
+      <!-- relatedItem[@displayLabel="Collection" -->
+
+      <!-- mods:typeOfResource -->
+      <mods:typeOfResource>text</mods:typeOfResource>
+
       <!-- recordInfo: recordContentSource, recordChangeDate, languageOfCataloging,
         recordOrigin
       -->

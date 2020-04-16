@@ -101,6 +101,9 @@
       <!-- mods:typeOfResource -->
       <mods:typeOfResource>text</mods:typeOfResource>
 
+      <!-- mods:language/mods:languageTerm -->
+      <mods:language><mods:languageTerm type="text" authority="iso639-2b">English</mods:languageTerm></mods:language>
+
       <!-- recordInfo: recordContentSource, recordChangeDate, languageOfCataloging,
         recordOrigin
       -->

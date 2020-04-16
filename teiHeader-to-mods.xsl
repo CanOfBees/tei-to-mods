@@ -21,6 +21,12 @@
       <mods:identifier type="local">
         <xsl:value-of select="tei:fileDesc/tei:publicationStmt/tei:idno[1]"/>
       </mods:identifier>
+      <xsl:if
+          test="matches(lower-case(normalize-space(tei:fileDesc/tei:publicationStmt/tei:idno[2])), '^.*:\s+\d{2,}$')">
+        <mods:identifier type="oclc">
+          <xsl:value-of select="normalize-space(substring-after(tei:fileDesc/tei:publicationStmt/tei:idno[2], ':'))"/>
+        </mods:identifier>
+      </xsl:if>
       <!-- title -->
       <mods:titleInfo>
         <mods:title>

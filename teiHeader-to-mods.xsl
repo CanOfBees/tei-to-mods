@@ -18,7 +18,7 @@
     <!-- variables -->
     <xsl:variable name="vAvail">
       <cob:avails>
-        <!-- generated from all availability statements, lower-cased and spacing normalized, then deduplicated -->
+        <!-- generated from all TDH availability statements, lower-cased and spacing normalized, then deduplicated -->
         <cob:avail inst="University of Tennesse Knoxville. Libraries">this work is the property of the special collections library, university of tennessee, knoxville, tn. it may be used freely by individuals for research, teaching, and personal use as long as this statement of availability is included in the text. for all other use contact the special collections librarian, hoskins library, university of tennessee, 1401 cumberland avenue, knoxville, tn 37996. (865) 974-4480.</cob:avail>
         <cob:avail inst="University of Tennesse Knoxville. Libraries">this work is the property of the special collections library, university of tennessee, knoxville, tn. it may be used freely by individuals for research, teaching, and personal use as long as this statement of availability is included in the text.</cob:avail>
         <cob:avail inst="University of Tennesse Knoxville. Libraries">this work is the property of the special collections library, university of tennessee, knoxville, tn. it may be used freely by individuals for research, teaching, and personal use as long as this statement of availability is included in the text. for commercial use contact the special collections librarian, hoskins library, university of tennessee, 1401 cumberland avenue, knoxville, tn 37996. (865) 974-4480.</cob:avail>
@@ -37,6 +37,9 @@
         <cob:avail inst="University of Georgia Libraries">this work is the property of the university of georgia libraries. it may be used freely by individuals for research, teaching, and personal use as long as this statement of availability is included in the text.</cob:avail>
         <cob:avail inst="Middle Tennessee State University">this work is the property of the albert gore research center, middle tennessee state university, murfreesboro, tn 37132. it may be used freely by individuals for research, teaching, and personal use as long as this statement of availability is included in the text. for all other use contact the albert gore research center, p.o. box 193, middle tennessee state university, murfreesboro, tn 37132.</cob:avail>
         <cob:avail inst="Tennessee State Museum">this work is the property of the tennessee state museum, nashville, tennessee. it may be used freely by individuals for research, teaching, and personal use as long as this statement of availability is included in the text.</cob:avail>
+        <!-- from SPC TEI -->
+        <cob:avail inst="University of Tennessee Knoxville. Libraries">the copyright interests in this collection remain with the creator. for more information, contact the special collections library.</cob:avail>
+        <cob:avail inst="University of Tennessee Knoxville. Libraries">the copyright interests in this collection remain with the creator. for more information, contact thespecial collections library.</cob:avail>
       </cob:avails>
     </xsl:variable>
 

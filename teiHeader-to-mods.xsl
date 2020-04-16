@@ -48,6 +48,9 @@
     <xsl:variable name="tei-avail"
                   select="normalize-space(lower-case(tei:fileDesc/tei:publicationStmt/tei:availability))"/>
 
+    <xsl:variable name="tei-location"
+                  select="if ($tei-avail = $vAvail/cob:avail) then ($vAvail/cob:avail[. = $tei-avail]/@inst) else ()"/>
+
     <mods:mods xmlns:mods="http://www.loc.gov/mods/v3" version="3.5"
           xmlns:xlink="http://www.w3.org/1999/xlink"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema"
@@ -86,14 +89,19 @@
       <mods:accessCondition type="use and reproduction"
                             xlink:href="http://rightsstatement.org/vocab/CNE/1.0/">Copyright Not Evaluated</mods:accessCondition>
 
+      <!-- location/physicalLocation -->
+      <xsl:if test="not($tei-location = '')">
+        <mods:location>
+          <mods:physicalLocation><xsl:value-of select="$tei-location"/></mods:physicalLocation>
+        </mods:location>
+      </xsl:if>
       <!-- recordInfo: recordContentSource, recordChangeDate, languageOfCataloging,
         recordOrigin
       -->
       <mods:recordInfo>
-        <mods:recordContentSource>
-          <xsl:value-of
-              select="if ($tei-avail = $vAvail/cob:avails/cob:avail) then ($vAvail/cob:avails/cob:avail[. = $tei-avail]/@inst) else ()"/>
-        </mods:recordContentSource>
+        <xsl:if test="not($tei-location = '')">
+          <mods:recordContentSource><xsl:value-of select="$tei-location"/></mods:recordContentSource>
+        </xsl:if>
         <mods:languageOfCataloging>
           <mods:languageTerm type="code" authority="iso639=2b">eng</mods:languageTerm>
         </mods:languageOfCataloging>

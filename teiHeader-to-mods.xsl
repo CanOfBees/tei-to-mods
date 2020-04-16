@@ -4,6 +4,7 @@
     xmlns:tei="http://www.tei-c.org/ns/1.0"
     xmlns:mods="http://www.loc.gov/mods/v3"
     xmlns:cob="http://canofbees.org/xslt/"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
     exclude-result-prefixes="tei xs"
     version="2.0">
@@ -28,14 +29,17 @@
         <cob:avail inst="Frank H. McClung Museum">this work in the property of the frank h. mcclung museum, university of tennessee, knoxville, tn. it may be used freely by individuals for research, teaching, and personal use as long as this statement of availability is included in the text. all other use is prohibited without the express written permission of the copyright holder.</cob:avail>
         <cob:avail inst="Calvin M. McClung Historical Collection">this work is the property of the mcclung historical collection, knox county public library, knoxville, tn. it may be used freely by individuals for research, teaching, and personal use as long as this statement of availability is included in the text. for all other use contact the manager of the mcclung historical collection, 500 west church avenue, knoxville, tn, 37902-2505. (865) 215-8801.</cob:avail>
         <cob:avail inst="Memphis Public Library">this work is the property of the memphis public library, memphis, tn. it may be used freely by individuals for research, teaching, and personal use as long as this statement of availability is included in the text. for all other use contact the memphis public library, 3030 poplar avenue, memphis, tn 38111</cob:avail>
-        <cob:avail inst="University of Memphis. Libraries">this work is the property of the university of memphis libraries, special collections department, ned r. mcwherter library, memphis, tn. it may be used freely by individuals for research, teaching, and personal use as long as this statement of availability is included in the text. for all other use contact the university of memphis libraries, 126 ned r. mcwherter library, the university of memphis, memphis, tn 38152-6500.</cob:avail>
+        <cob:avail inst="University of Memphis. University Libraries">this work is the property of the university of
+          memphis libraries, special collections department, ned r. mcwherter library, memphis, tn. it may be used freely by individuals for research, teaching, and personal use as long as this statement of availability is included in the text. for all other use contact the university of memphis libraries, 126 ned r. mcwherter library, the university of memphis, memphis, tn 38152-6500.</cob:avail>
         <cob:avail inst="Tennessee State Library and Archives">this work is the property of the tennessee state library and archives, nashville, tennessee. it may be used freely by individuals for research, teaching, and personal use as long as this statement of availability is included in the text.</cob:avail>
         <cob:avail inst="Tennessee State Library and Archives">this work is the property of the tennessee state library and archives, nashville, tn. it may be used freely by individuals for research, teaching, and personal use as long as this statement of availability is included in the text. for all other use contact the tennessee state library and archives, 403 seventh avenue north, nashville, tn 37243-0312. (615) 741-2764.</cob:avail>
         <cob:avail inst="Tennessee State Library and Archives">this work is the property of the tennessee state library and archives, nashville, tn. it may be used freely by individuals for research, teaching, and personal use as long as this statement of availability is included in the text.</cob:avail>
         <cob:avail inst="Tennessee State Library and Archives">this work is the property of the tennessee state library and archives, nashville,tn. it may be used freely by individuals for research, teaching, and personal use as long as this statement of availability is included in the text.</cob:avail>
         <cob:avail inst="Tennessee State Library and Archives">this work is the property of the tennessee state library and archives, nashville, tn. it may be used freely by individuals for research, teaching, and personal use as long as this ! statement of availability is included in the text. for all other use contact the tennessee state library and archives, 403 seventh avenue north, nashville, tn 37243-0312. (615) 741-2764.</cob:avail>
         <cob:avail inst="University of Georgia Libraries">this work is the property of the university of georgia libraries. it may be used freely by individuals for research, teaching, and personal use as long as this statement of availability is included in the text.</cob:avail>
-        <cob:avail inst="Middle Tennessee State University">this work is the property of the albert gore research center, middle tennessee state university, murfreesboro, tn 37132. it may be used freely by individuals for research, teaching, and personal use as long as this statement of availability is included in the text. for all other use contact the albert gore research center, p.o. box 193, middle tennessee state university, murfreesboro, tn 37132.</cob:avail>
+        <cob:avail inst="Middle Tennessee State University. Albert Gore Research Center">this work is the property of
+          the albert
+          gore research center, middle tennessee state university, murfreesboro, tn 37132. it may be used freely by individuals for research, teaching, and personal use as long as this statement of availability is included in the text. for all other use contact the albert gore research center, p.o. box 193, middle tennessee state university, murfreesboro, tn 37132.</cob:avail>
         <cob:avail inst="Tennessee State Museum">this work is the property of the tennessee state museum, nashville, tennessee. it may be used freely by individuals for research, teaching, and personal use as long as this statement of availability is included in the text.</cob:avail>
         <!-- from SPC TEI -->
         <cob:avail inst="University of Tennessee Knoxville. Libraries">the copyright interests in this collection remain with the creator. for more information, contact the special collections library.</cob:avail>
@@ -43,7 +47,11 @@
       </cob:avails>
     </xsl:variable>
 
+    <xsl:variable name="tei-avail"
+                  select="normalize-space(lower-case(tei:fileDesc/tei:publicationStmt/tei:availability))"/>
+
     <mods:mods xmlns:mods="http://www.loc.gov/mods/v3" version="3.5"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema"
           xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-5.xsd">
       <!-- identifiers -->
@@ -75,6 +83,11 @@
 
       <!-- subjects -->
       <xsl:apply-templates select="tei:profileDesc/tei:textClass/tei:keywords"/>
+
+      <!-- rights/accessCondition -->
+      <mods:accessCondition type="use and reproduction"
+                            xlink:href="http://rightsstatement.org/vocab/CNE/1.0/">Copyright Not Evaluated</mods:accessCondition>
+
       <!-- recordInfo: recordContentSource, recordChangeDate, languageOfCataloging,
         recordOrigin
       -->

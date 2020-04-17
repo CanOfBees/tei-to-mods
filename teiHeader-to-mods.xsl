@@ -7,7 +7,7 @@
     xmlns:cob="http://canofbees.org/xslt/"
     xmlns:xlink="http://www.w3.org/1999/xlink"
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
-    exclude-result-prefixes="tei xs"
+    exclude-result-prefixes="tei xs cob"
     version="2.0">
 
   <!-- output -->

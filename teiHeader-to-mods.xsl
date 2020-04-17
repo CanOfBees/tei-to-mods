@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+    xmlns:xml="http://www.w3.org/XML/1998/namespace"
     xmlns:tei="http://www.tei-c.org/ns/1.0"
     xmlns:mods="http://www.loc.gov/mods/v3"
     xmlns:cob="http://canofbees.org/xslt/"
@@ -12,6 +13,9 @@
   <!-- output -->
   <xsl:output method="xml" indent="yes" encoding="UTF-8"/>
   <xsl:strip-space elements="*"/>
+
+  <!-- global variables and parameters -->
+  <xsl:variable name="vId" select="/tei:TEI/@xml:id"/>
 
   <!-- transform -->
   <xsl:template match="tei:TEI/tei:teiHeader">
@@ -94,9 +98,11 @@
         </mods:location>
       </xsl:if>
 
-      <!-- relatedItem[@displayLabel="Project" -->
+      <!-- relatedItem[@displayLabel="Project"] -->
+      <xsl:apply-templates select="tei:fileDesc/tei:sourceDesc/tei:bibl/tei:note[@type='collection']" mode="project"/>
 
-      <!-- relatedItem[@displayLabel="Collection" -->
+      <!-- relatedItem[@displayLabel="Collection"] -->
+      <xsl:apply-templates select="tei:fileDesc/tei:sourceDesc/tei:bibl/tei:note[@type='collection']" mode="collection"/>
 
       <!-- mods:typeOfResource -->
       <mods:typeOfResource>text</mods:typeOfResource>
@@ -186,6 +192,46 @@
         </mods:role>
       </xsl:if>
     </mods:name>
+  </xsl:template>
+
+  <xsl:template match="tei:fileDesc/tei:sourceDesc/tei:bibl/tei:note[@type='collection']" mode="project">
+    <xsl:variable name="vProj"
+                  select="if (not(starts-with($vId, 'ms00')))
+                          then ('Tennessee Documentary History')
+                          else if (contains(., 'Ramsey')) then ('Ramsey Family Papers')
+                          else if (contains(., 'Tatum')) then ('Robert G. Tatum Papers')
+                          else if (contains(., 'University of Tennessee Libraries Special Collections Rare Books')) then ('The Harp of Columbia')
+                          else if (contains(., 'Insurance Company')) then ('Insurance Company of North America')
+                          else if (contains(., 'Vinsinger')) then ('Greer and Vinsinger Family Collection of American Revolutionary War Documents')
+                          else if (contains(/tei:TEI//tei:term, 'Civil War Letters')) then ('Digital Civil War Collection')
+                          else if (contains(/tei:TEI//tei:term, 'Civil War Diaries')) then ('Digital Civil War Collection')
+                          else if (contains(., 'David Burford')) then ('David Burford Papers')
+                          else if (contains(., 'John Sevier')) then ('John Sevier Collection')
+                          else if (contains(., 'Thomas W. Humes')) then ('Thomas W. Humes and Charles W. Dabney Papers')
+                          else if (contains(., 'Robert Morris Travis')) then ('Robert Morris Travis Papers')
+                          else if (contains(., 'Edwin Floyd Wiley')) then ('Edwin Floyd Wile Memoir and Photograph')
+                          else ()"/>
+
+    <mods:relatedItem displayLabel="Project" type="host">
+      <mods:titleInfo>
+        <mods:title><xsl:value-of select="$vProj"/></mods:title>
+      </mods:titleInfo>
+    </mods:relatedItem>
+  </xsl:template>
+
+  <xsl:template match="tei:fileDesc/tei:sourceDesc/tei:bibl/tei:note[@type='collection']" mode="collection">
+    <xsl:variable name="vColl"
+                  select="normalize-space(.)"/>
+
+    <!--
+      note: i did not include manuscript numbers here; collections may have been reprocessed, or in the case of TDH we
+      may not even have accurate information. hopefully collection titles, where available, will suffice.
+    -->
+    <mods:relatedItem displayLabel="Collection" type="host">
+      <mods:titleInfo>
+        <mods:title><xsl:value-of select="$vColl"/></mods:title>
+      </mods:titleInfo>
+    </mods:relatedItem>
   </xsl:template>
 
   <!-- ignore! -->

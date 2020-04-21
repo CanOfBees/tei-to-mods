@@ -194,6 +194,14 @@
     </mods:name>
   </xsl:template>
 
+  <!--
+    odd error popping up with some values:
+      else if (contains(/tei:TEI//tei:term, 'Civil War Letters')) then ('Digital Civil War Collection')
+      else if (contains(/tei:TEI//tei:term, 'Civil War Diaries')) then ('Digital Civil War Collection')
+    throws XPTY0004 A sequence of more than one item is not allows at the first argument of fn:contains()
+
+    it looks like 0012_000070_000221_0000.xml is the culprit.
+  -->
   <xsl:template match="tei:fileDesc/tei:sourceDesc/tei:bibl/tei:note[@type='collection']" mode="project">
     <xsl:variable name="vProj"
                   select="if (not(starts-with($vId, 'ms00')))
@@ -203,8 +211,8 @@
                           else if (contains(., 'University of Tennessee Libraries Special Collections Rare Books')) then ('The Harp of Columbia')
                           else if (contains(., 'Insurance Company')) then ('Insurance Company of North America')
                           else if (contains(., 'Vinsinger')) then ('Greer and Vinsinger Family Collection of American Revolutionary War Documents')
-                          else if (contains(/tei:TEI//tei:term, 'Civil War Letters')) then ('Digital Civil War Collection')
-                          else if (contains(/tei:TEI//tei:term, 'Civil War Diaries')) then ('Digital Civil War Collection')
+                          else if (some $t in /tei:TEI//tei:term satisfies contains(., 'Civil War Letters')) then 'Civil War Letters'
+                          else if (some $t in /tei:TEI//tei:term satisfies contains(., 'Civil War Diaries')) then 'Civil War Diaries'
                           else if (contains(., 'David Burford')) then ('David Burford Papers')
                           else if (contains(., 'John Sevier')) then ('John Sevier Collection')
                           else if (contains(., 'Thomas W. Humes')) then ('Thomas W. Humes and Charles W. Dabney Papers')

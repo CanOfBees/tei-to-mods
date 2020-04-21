@@ -30,7 +30,5 @@ We need to extract MODS from a mess of TEI.
 Stand by for additional details.
 
 ## Where ##
-source.hut: [https://hg.sr.ht/~canofbees/tei-to-mods](https://hg.sr.ht/~canofbees/tei-to-mods)
-
-github: [https://github.com/CanOfBees/tei-to-mods](https://github.com/CanOfBees/tei-to-mods)
+github: [https://github.com/utkdigitalinitiatives/tei-to-mods](https://github.com/utkdigitalinitiatives/tei-to-mods)
 

@@ -55,7 +55,7 @@
 
     <mods:mods xmlns:mods="http://www.loc.gov/mods/v3" version="3.5"
           xmlns:xlink="http://www.w3.org/1999/xlink"
-          xmlns:xsi="http://www.w3.org/2001/XMLSchema"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-5.xsd">
       <!-- identifiers -->
       <mods:identifier type="local">
@@ -118,7 +118,7 @@
           <mods:recordContentSource><xsl:value-of select="$tei-location"/></mods:recordContentSource>
         </xsl:if>
         <mods:languageOfCataloging>
-          <mods:languageTerm type="code" authority="iso639=2b">eng</mods:languageTerm>
+          <mods:languageTerm type="code" authority="iso639-2b">eng</mods:languageTerm>
         </mods:languageOfCataloging>
         <mods:recordCreationDate><xsl:value-of select="current-date()"/></mods:recordCreationDate>
         <mods:recordOrigin>This MODS record was generated into MODS v3.5 from the TEI teiHeader by

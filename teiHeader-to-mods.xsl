@@ -3,7 +3,7 @@
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:xml="http://www.w3.org/XML/1998/namespace"
     xmlns:tei="http://www.tei-c.org/ns/1.0"
-    xmlns:mods="http://www.loc.gov/mods/v3"
+    xmlns="http://www.loc.gov/mods/v3"
     xmlns:cob="http://canofbees.org/xslt/"
     xmlns:xlink="http://www.w3.org/1999/xlink"
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -53,31 +53,31 @@
     <xsl:variable name="tei-location"
                   select="if ($tei-avail = $vAvail/cob:avail) then ($vAvail/cob:avail[. = $tei-avail]/@inst) else ()"/>
 
-    <mods:mods xmlns:mods="http://www.loc.gov/mods/v3" version="3.5"
+    <mods xmlns="http://www.loc.gov/mods/v3" version="3.5"
           xmlns:xlink="http://www.w3.org/1999/xlink"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-5.xsd">
       <!-- identifiers -->
-      <mods:identifier type="local">
+      <identifier type="local">
         <xsl:value-of select="tei:fileDesc/tei:publicationStmt/tei:idno[1]"/>
-      </mods:identifier>
+      </identifier>
       <xsl:if
           test="matches(lower-case(normalize-space(tei:fileDesc/tei:publicationStmt/tei:idno[2])), '^.*:\s+\d{2,}$')">
-        <mods:identifier type="oclc">
+        <identifier type="oclc">
           <xsl:value-of select="normalize-space(substring-after(tei:fileDesc/tei:publicationStmt/tei:idno[2], ':'))"/>
-        </mods:identifier>
+        </identifier>
       </xsl:if>
       <!-- title -->
-      <mods:titleInfo>
-        <mods:title>
+      <titleInfo>
+        <title>
           <xsl:value-of select="normalize-space(tei:fileDesc/tei:sourceDesc/tei:bibl/tei:title[1])"/>
-        </mods:title>
-      </mods:titleInfo>
+        </title>
+      </titleInfo>
       <!-- abstract -->
-      <mods:abstract>
+      <abstract>
         <xsl:value-of
             select="normalize-space(tei:fileDesc/tei:sourceDesc/tei:bibl/tei:note[@type='abstract' or @type='summary'])"/>
-      </mods:abstract>
+      </abstract>
       <!-- originInfo/dateCreated -->
       <xsl:apply-templates select="tei:fileDesc/tei:sourceDesc/tei:bibl/tei:date[1]"/>
 
@@ -88,14 +88,14 @@
       <xsl:apply-templates select="tei:profileDesc/tei:textClass/tei:keywords"/>
 
       <!-- rights/accessCondition -->
-      <mods:accessCondition type="use and reproduction"
-                            xlink:href="http://rightsstatement.org/vocab/CNE/1.0/">Copyright Not Evaluated</mods:accessCondition>
+      <accessCondition type="use and reproduction"
+                            xlink:href="http://rightsstatement.org/vocab/CNE/1.0/">Copyright Not Evaluated</accessCondition>
 
       <!-- location/physicalLocation -->
       <xsl:if test="not($tei-location = '')">
-        <mods:location>
-          <mods:physicalLocation><xsl:value-of select="$tei-location"/></mods:physicalLocation>
-        </mods:location>
+        <location>
+          <physicalLocation><xsl:value-of select="$tei-location"/></physicalLocation>
+        </location>
       </xsl:if>
 
       <!-- relatedItem[@displayLabel="Project"] -->
@@ -104,63 +104,63 @@
       <!-- relatedItem[@displayLabel="Collection"] -->
       <xsl:apply-templates select="tei:fileDesc/tei:sourceDesc/tei:bibl/tei:note[@type='collection']" mode="collection"/>
 
-      <!-- mods:typeOfResource -->
-      <mods:typeOfResource>text</mods:typeOfResource>
+      <!-- typeOfResource -->
+      <typeOfResource>text</typeOfResource>
 
-      <!-- mods:language/mods:languageTerm -->
-      <mods:language><mods:languageTerm type="text" authority="iso639-2b">English</mods:languageTerm></mods:language>
+      <!-- language/languageTerm -->
+      <language><languageTerm type="text" authority="iso639-2b">English</languageTerm></language>
 
       <!-- recordInfo: recordContentSource, recordChangeDate, languageOfCataloging,
         recordOrigin
       -->
-      <mods:recordInfo>
+      <recordInfo>
         <xsl:if test="not($tei-location = '')">
-          <mods:recordContentSource><xsl:value-of select="$tei-location"/></mods:recordContentSource>
+          <recordContentSource><xsl:value-of select="$tei-location"/></recordContentSource>
         </xsl:if>
-        <mods:languageOfCataloging>
-          <mods:languageTerm type="code" authority="iso639-2b">eng</mods:languageTerm>
-        </mods:languageOfCataloging>
-        <mods:recordCreationDate><xsl:value-of select="current-date()"/></mods:recordCreationDate>
-        <mods:recordOrigin>This MODS record was generated into MODS v3.5 from the TEI teiHeader by
+        <languageOfCataloging>
+          <languageTerm type="code" authority="iso639-2b">eng</languageTerm>
+        </languageOfCataloging>
+        <recordCreationDate><xsl:value-of select="current-date()"/></recordCreationDate>
+        <recordOrigin>This MODS record was generated into MODS v3.5 from the TEI teiHeader by
           University of Tennessee Libraries Digital Initiatives, using a stylesheet available at
-          https://github.com/utkdigitalinitiatives/tei-to-mods.</mods:recordOrigin>
-      </mods:recordInfo>
-    </mods:mods>
+          https://github.com/utkdigitalinitiatives/tei-to-mods.</recordOrigin>
+      </recordInfo>
+    </mods>
   </xsl:template>
 
   <xsl:template match="tei:fileDesc/tei:sourceDesc/tei:bibl/tei:date[1]">
     <xsl:variable name="vWhen" select="if (@when) then cob:date-proc(@when) else ''"/>
     <xsl:variable name="vDate" select="cob:date-proc(normalize-space(.))"/>
 
-    <mods:originInfo>
+    <originInfo>
       <xsl:choose>
         <xsl:when test="$vDate != '' and $vWhen != ''">
-          <mods:dateCreated><xsl:value-of select="$vDate"/></mods:dateCreated>
-          <mods:dateCreated encoding="edtf"><xsl:value-of select="$vWhen"/></mods:dateCreated>
+          <dateCreated><xsl:value-of select="$vDate"/></dateCreated>
+          <dateCreated encoding="edtf"><xsl:value-of select="$vWhen"/></dateCreated>
         </xsl:when>
         <xsl:when test="$vDate != '' and cob:is-iso-date($vDate) and $vWhen = ''">
-          <mods:dateCreated><xsl:value-of select="$vDate"/></mods:dateCreated>
-          <mods:dateCreated encoding="edtf"><xsl:value-of select="$vDate"/></mods:dateCreated>
+          <dateCreated><xsl:value-of select="$vDate"/></dateCreated>
+          <dateCreated encoding="edtf"><xsl:value-of select="$vDate"/></dateCreated>
         </xsl:when>
         <xsl:otherwise>
-          <mods:dateCreated><xsl:value-of select="$vDate"/></mods:dateCreated>
+          <dateCreated><xsl:value-of select="$vDate"/></dateCreated>
         </xsl:otherwise>
       </xsl:choose>
-    </mods:originInfo>
+    </originInfo>
   </xsl:template>
 
   <xsl:template match="tei:fileDesc/tei:sourceDesc/tei:bibl/tei:author/tei:name">
-    <mods:name>
+    <name>
       <xsl:if test="@type = 'person'">
         <xsl:attribute name="type" select="'personal'"/>
       </xsl:if>
-      <mods:namePart>
+      <namePart>
         <xsl:value-of select="normalize-space(.)"/>
-      </mods:namePart>
-      <mods:role>
-        <mods:roleTerm authority="marcrelator" authorityURI="http://id.loc.gov/vocabulary/relators/cre">Creator</mods:roleTerm>
-      </mods:role>
-    </mods:name>
+      </namePart>
+      <role>
+        <roleTerm authority="marcrelator" authorityURI="http://id.loc.gov/vocabulary/relators/cre">Creator</roleTerm>
+      </role>
+    </name>
   </xsl:template>
 
   <xsl:template match="tei:profileDesc/tei:textClass/tei:keywords">
@@ -169,29 +169,29 @@
   </xsl:template>
 
   <xsl:template match="tei:term[not(child::tei:name)]">
-    <mods:subject>
-      <mods:topic><xsl:value-of select="normalize-space(.)"/></mods:topic>
-    </mods:subject>
+    <subject>
+      <topic><xsl:value-of select="normalize-space(.)"/></topic>
+    </subject>
   </xsl:template>
 
   <xsl:template match="tei:term[child::tei:name]">
-    <mods:name>
+    <name>
       <xsl:if test="tei:name/@ref">
         <xsl:attribute name="valueURI" select="tei:name/@ref"/>
       </xsl:if>
-      <mods:namePart>
+      <namePart>
         <xsl:value-of select="normalize-space(tei:name)"/>
-      </mods:namePart>
+      </namePart>
       <xsl:if test="tei:name/@role">
         <xsl:variable name="vRole" select="tokenize(tei:name/@role, ' ')"/>
-        <mods:role>
-          <mods:roleTerm authority="marcrelator"
+        <role>
+          <roleTerm authority="marcrelator"
                          valueURI="{$vRole[2]}">
             <xsl:value-of select="$vRole[1]"/>
-          </mods:roleTerm>
-        </mods:role>
+          </roleTerm>
+        </role>
       </xsl:if>
-    </mods:name>
+    </name>
   </xsl:template>
 
   <!--
@@ -220,11 +220,11 @@
                           else if (contains(., 'Edwin Floyd Wiley')) then ('Edwin Floyd Wile Memoir and Photograph')
                           else ()"/>
 
-    <mods:relatedItem displayLabel="Project" type="host">
-      <mods:titleInfo>
-        <mods:title><xsl:value-of select="$vProj"/></mods:title>
-      </mods:titleInfo>
-    </mods:relatedItem>
+    <relatedItem displayLabel="Project" type="host">
+      <titleInfo>
+        <title><xsl:value-of select="$vProj"/></title>
+      </titleInfo>
+    </relatedItem>
   </xsl:template>
 
   <xsl:template match="tei:fileDesc/tei:sourceDesc/tei:bibl/tei:note[@type='collection']" mode="collection">
@@ -235,11 +235,11 @@
       note: i did not include manuscript numbers here; collections may have been reprocessed, or in the case of TDH we
       may not even have accurate information. hopefully collection titles, where available, will suffice.
     -->
-    <mods:relatedItem displayLabel="Collection" type="host">
-      <mods:titleInfo>
-        <mods:title><xsl:value-of select="$vColl"/></mods:title>
-      </mods:titleInfo>
-    </mods:relatedItem>
+    <relatedItem displayLabel="Collection" type="host">
+      <titleInfo>
+        <title><xsl:value-of select="$vColl"/></title>
+      </titleInfo>
+    </relatedItem>
   </xsl:template>
 
   <!-- ignore! -->

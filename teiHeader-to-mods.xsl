@@ -89,7 +89,7 @@
 
       <!-- rights/accessCondition -->
       <accessCondition type="use and reproduction"
-                            xlink:href="http://rightsstatement.org/vocab/CNE/1.0/">Copyright Not Evaluated</accessCondition>
+                            xlink:href="http://rightsstatements.org/vocab/CNE/1.0/">Copyright Not Evaluated</accessCondition>
 
       <!-- location/physicalLocation -->
       <xsl:if test="not($tei-location = '')">
